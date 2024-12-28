@@ -1,0 +1,81 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Diagnostics;
+
+
+namespace AlgorithmsExercises
+{
+    //Implement Browser Back Button simulation
+    public class Browser
+    {
+        private Stack<string> _URLs = new Stack<string>();
+
+        public void BrowsePage(string url)
+        {
+            _URLs.Push(url);
+            _OpenURL(url);
+        }
+
+        private void _OpenURL(string url)
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = url,
+                UseShellExecute = true // Ensures the URL opens in the default browser
+            });
+        }
+
+        public void OpenBackURL()
+        {
+            _URLs.Pop();
+            _OpenURL(_URLs.Peek());
+        }
+
+    }
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Browser browser = new Browser();
+            int UserInput = 0;
+
+            Console.WriteLine("Do you want to go to face book? Yes:1 , No:0");
+            UserInput = Convert.ToInt32(Console.ReadLine());
+
+            if (UserInput == 1)
+                browser.BrowsePage(@"https://www.FaceBook.com");
+
+            Console.WriteLine("Do you want to go to Instagram? Yes:1 , Back:0");
+            UserInput = Convert.ToInt32(Console.ReadLine());
+
+            if (UserInput == 0)
+                browser.OpenBackURL();
+            else
+                browser.BrowsePage(@"https://www.instagram.com/");
+
+
+            Console.WriteLine("Do you want to go to amazon? Yes:1 , Back:0");
+            UserInput = Convert.ToInt32(Console.ReadLine());
+
+            if (UserInput == 0)
+                browser.OpenBackURL();
+            else
+                browser.BrowsePage(@"https://www.amazon.com/");
+
+
+            Console.WriteLine("Do you want to go to git hub? Yes:1 , Back:0");
+            UserInput = Convert.ToInt32(Console.ReadLine());
+
+            if (UserInput == 0)
+                browser.OpenBackURL();
+            else
+                browser.BrowsePage(@"https://www.github.com/");
+
+
+            Console.ReadKey();
+        }
+    }
+}
